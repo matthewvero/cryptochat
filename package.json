@@ -15,12 +15,12 @@
     "react-redux": "^7.2.6",
     "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
+    "react-transition-group": "^4.4.2",
     "redux-logger": "^3.0.6",
     "socket.io-client": "^4.4.0",
     "styled-components": "^5.3.3",
-    "web-vitals": "^2.1.2",
-    "web3": "^1.6.1"
+    "web-vitals": "^2.1.2"
   },
   "resolutions": {
     "react-error-overlay": "6.0.9"

@@ -6,6 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const User = require('./schemas/user.schema');
 const path = require("path");
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 app.use(cors({
@@ -28,6 +29,28 @@ app.get('/user/:publicAddress', async (req, res) => {
   } else {
     res.send(false);
   }
+  
+})
+
+app.get('/user/search/:userName', async (req, res) => {
+  try {
+    const userProfile = await User.findOne({username: req.params.userName})
+    if(userProfile){
+      res.send(userProfile)
+    } else {
+      res.send({})
+    }
+  } catch (err) {
+    res.sendStatus(500);
+  }
+
+})
+
+app.post('/user/add', async (req, res) => {
+  const {userID, friendID} = req.body;
+  const users = await User.find({_id: {$in: [userID, friendID]}});
+  console.log(req.body)
+  console.log(users)
   
 })
 

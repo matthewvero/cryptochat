@@ -16,10 +16,13 @@ export const HeaderContainer = styled.header`
   left: 0;
   height: 70px;
   width: 100vw;
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
   align-items: center;
+  justify-items: center;
   animation: ${slidein} 200ms ease-out 1 forwards;
+  box-sizing: border-box;
+
   
 `;
 

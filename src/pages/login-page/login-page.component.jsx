@@ -13,10 +13,12 @@ export const LoginPage = () => {
             const account = accounts[0];
             dispatch(setPublicAddress(account));
       }
-
+      useEffect(() => {
+            getAccount()
+      }, [])
       const createUserProfile = async () => {
 
-            const res = await fetch(`http://localhost:5000/user/${auth.publicAddress}/`, {
+            const res = await fetch(`http://localhost:3000/user/${auth.publicAddress}/`, {
                   method: 'post',
                   mode: 'cors',
                   headers: {
@@ -34,6 +36,7 @@ export const LoginPage = () => {
             }
 
       }
+      useEffect(() => console.log(auth), [auth])
       return (
             <div>
                   {

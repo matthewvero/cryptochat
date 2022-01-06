@@ -1,52 +1,44 @@
 import './App.css';
-import { useEffect, useState } from 'react';
-import {useSelector, useDispatch } from 'react-redux';
-import { Routes, Route, useNavigate} from 'react-router-dom';
+import { useEffect } from 'react';
+import {useSelector } from 'react-redux';
+import { Routes, Route, useNavigate, Outlet} from 'react-router-dom';
 import {LoginPage} from './pages/login-page/login-page.component';
 import Dashboard from './pages/dashboard-page/dashboard-page.component';
-import { setUser } from './redux/slices/auth-slice';
 import { Header } from './components/header/header.component';
 import { Compose } from './components/compose/compose.component';
-
+import { useGetUserProfileQuery } from './redux/redux-query';
+import { AddContact } from './components/addcontact/add-contact.component';
+import { setPublicAddress } from './redux/slices/auth-slice';
 function App() {
-  const [metaMaskInstalled, setMetaMaskInstalled] = useState(false);
+  const state = useSelector(state => state.userAPI)
   const auth = useSelector(state => state.auth);
-  const dispatch = useDispatch();
 
   const navigate = useNavigate()
-  useEffect(() => {
-    console.log(auth.userProfile)
   
-  }, [auth.userProfile])
-  useEffect(() => {
-    if (auth.publicAddress) {
-          const getUserProfile = async () => {
-                const res = await fetch(`http://localhost:5000/user/${auth.publicAddress}`, {
-                      method: 'get',
-                      mode: 'cors',
-                      headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                      }
-                });
+  const { data, error, isLoading } = useGetUserProfileQuery(auth.publicAddress);
 
-                const response = await res.json();
-                if (response) {
-                      dispatch(setUser(response));
-                } 
-          }
-          getUserProfile();
+  useEffect(() => {
+    if(!isLoading && data.hasOwnProperty('username')) {
+      navigate('/dashboard/home');
+    } else {
+      navigate('login')
     }
-    
-}, [auth.publicAddress])
+  }, [data])
 
   return (
     
     <div className="App">
-        {auth.userProfile?.hasOwnProperty('username') && <Header/>}
         <Routes>
-          <Route path='/' element={auth.userProfile?.hasOwnProperty('username') ? <Dashboard/> : <LoginPage />}/>
+          <Route path='/dashboard' element={<Header/>}>
+            
+            <Route path='home' element={isLoading ? <div>LOADING</div> : <Dashboard/>}/>
+
+          </Route>
+         
+          <Route path='/login' element={<LoginPage/>}/>
         </Routes>
-  
+        <Compose/>
+        <AddContact user={data}/>
     </div>
   );
 }
