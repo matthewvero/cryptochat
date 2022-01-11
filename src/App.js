@@ -8,7 +8,6 @@ import { Header } from './components/header/header.component';
 import { Compose } from './components/compose/compose.component';
 import { useGetUserProfileQuery } from './redux/redux-query';
 import { AddContact } from './components/addcontact/add-contact.component';
-import { setPublicAddress } from './redux/slices/auth-slice';
 function App() {
   const state = useSelector(state => state.userAPI)
   const auth = useSelector(state => state.auth);
@@ -18,6 +17,7 @@ function App() {
   const { data, error, isLoading } = useGetUserProfileQuery(auth.publicAddress);
 
   useEffect(() => {
+    console.log(data)
     if(!isLoading && data.hasOwnProperty('username')) {
       navigate('/dashboard/home');
     } else {
@@ -25,9 +25,11 @@ function App() {
     }
   }, [data])
 
+  
+
   return (
     
-    <div className="App">
+    <div className="App" data-testid="app-container" >
         <Routes>
           <Route path='/dashboard' element={<Header/>}>
             

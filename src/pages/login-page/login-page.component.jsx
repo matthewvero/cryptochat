@@ -36,7 +36,7 @@ export const LoginPage = () => {
             }
 
       }
-      useEffect(() => console.log(auth), [auth])
+
       return (
             <div>
                   {

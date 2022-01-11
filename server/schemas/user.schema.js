@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
       publicAddress: {type: String, unique: true},
       nonce: Number,
       chats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'chat' }],
-      friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'user'}]
+      friends: [{type: mongoose.Schema.Types.ObjectId, ref: 'friendships'}]
 });
 
 const User = mongoose.model('user', userSchema);
